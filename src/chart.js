@@ -44,7 +44,7 @@ const Chart = () => {
   return (
     <div className="chart">
       {data.length > 0 && (
-        <ResponsiveContainer width="80%" className="chart">
+        <ResponsiveContainer width="95%" height="60%" className="chart">
           <AreaChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
             <defs>
               <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
