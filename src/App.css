@@ -16,6 +16,9 @@
   align-content: center;
   flex-direction: column;
   justify-content: center;
+  max-width: inherit;
+  width: 95%;
+  height: 95%;
 }
 
 .percentage {
