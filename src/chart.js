@@ -34,9 +34,9 @@ const Chart = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  const percentColour = percentDiff >= 0 ? 'green' : 'red';
+  const percentColour = percentDiff >= 0 ? '#82ca9d' : '#ff6666';
   return (
-    <>
+    <div className="chart">
       {data.length > 0 && (
         <AreaChart width={900} height={250} data={data}>
           <defs>
@@ -45,8 +45,8 @@ const Chart = () => {
               <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <XAxis dataKey="time" />
-          <YAxis type="number" domain={['dataMin-10', 'dataMax+10']} />
+          <XAxis dataKey="time" tick={{stroke: 'white', strokeWidth: 0.5}}/>
+          <YAxis type="number" domain={['dataMin-10', 'dataMax+10']} tick={{stroke: 'white', strokeWidth: 0.5}} />
           <CartesianGrid strokeDasharray="3 3" />
           <Tooltip />
           <Area
@@ -58,8 +58,8 @@ const Chart = () => {
           />
         </AreaChart>
       )}
-      <p style={{color: percentColour}}>{percentDiff}%</p>
-    </>
+      <h1 className="percentage" style={{color: percentColour}}>{percentDiff}%</h1>
+    </div>
   );
 };
 

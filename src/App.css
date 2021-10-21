@@ -1,4 +1,24 @@
 .App-header{
+  max-height: 100vh;
+  max-width: 100vw;
   height: 100vh;
-  padding-left: 5rem;
+  background-color: #006699;
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.chart {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.percentage {
+  margin-left: auto;
+  margin-right: auto;
 }
