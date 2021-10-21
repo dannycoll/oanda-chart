@@ -25,3 +25,13 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+.custom-tooltip {
+  background-color: white;
+  padding: 0.5rem 1rem;
+  line-height: 0.8;
+}
+
+.balance-label {
+  color: #82ca9d;
+}
