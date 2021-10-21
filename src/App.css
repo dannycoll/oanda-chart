@@ -46,3 +46,24 @@
   color: white;
   text-align: center;
 }
+
+.timeFrameButtons {
+  display: inline;
+  margin: auto;
+}
+
+.timeFrameButtons > button {
+  color: white;
+  padding: 1rem 2rem;
+  background: none;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  border-bottom: 1px solid white;
+  margin: 1rem;
+}
+
+.timeFrameButtons > button:hover, button:focus{
+  border-bottom: 5px solid white;
+  outline: none;
+}
