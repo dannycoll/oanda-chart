@@ -11,10 +11,11 @@ import { useState, useEffect } from "react";
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
+    const date = payload[0].payload.time;
     return (
       <div className="custom-tooltip">
-        <p className="label">{payload[0].payload.time.toLocaleDateString("en-UK")} - {payload[0].payload.time.toLocaleTimeString("en-UK").substring(0,5)}</p>
-        <p className="balance-label">{`balance : ${payload[0].payload.balance}`}</p>
+        <p className="label">{date.toLocaleDateString("en-UK")} - {date.toLocaleTimeString("en-UK").substring(0,5)}</p>
+        <p className="balance-label">{`Balance : ${payload[0].payload.balance}`}</p>
         <p className="label">{`Open Trades : ${payload[0].payload.openTrades}`}</p>
         {console.log(payload[0].payload)}
       </div>
@@ -72,21 +73,25 @@ const Chart = () => {
             >
               <defs>
                 <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+                  <stop offset="10%" stopColor="#82ca9d" stopOpacity={0.8} />
+                  <stop offset="90%" stopColor="#82ca9d" stopOpacity={0.05} />
                 </linearGradient>
               </defs>
               <XAxis
                 dataKey="time"
                 tick={{ fill: "white", strokeWidth: 0.5 }}
                 tickFormatter={formatDate}
+                scale="time"
+                domain={['dataMin', 'dataMax']}
               />
               <YAxis
                 type="number"
-                domain={["dataMin-10", "dataMax+10"]}
+                domain={[dataMin => Math.floor(dataMin-10), dataMax => Math.floor(dataMax+10)]}
                 tick={{ fill: "white", strokeWidth: 0.5 }}
+                scale="linear"
+                tickCount={5}
               />
-              <CartesianGrid strokeDasharray="3 3" />
+              <CartesianGrid strokeDasharray="5 5" />
               <Tooltip content={<CustomTooltip />} />
               <Area
                 type="basis"
