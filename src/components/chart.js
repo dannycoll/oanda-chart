@@ -14,7 +14,10 @@ const CustomTooltip = ({ active, payload, label }) => {
     const date = payload[0].payload.time;
     return (
       <div className="custom-tooltip">
-        <p className="label">{date.toLocaleDateString("en-UK")} - {date.toLocaleTimeString("en-UK").substring(0,5)}</p>
+        <p className="label">
+          {date.toLocaleDateString("en-UK")} -{" "}
+          {date.toLocaleTimeString("en-UK").substring(0, 5)}
+        </p>
         <p className="balance-label">{`Balance : ${payload[0].payload.balance}`}</p>
         <p className="label">{`Open Trades : ${payload[0].payload.openTrades}`}</p>
         {console.log(payload[0].payload)}
@@ -56,8 +59,8 @@ const Chart = () => {
     );
   };
   const formatDate = (date) => {
-    return date.toLocaleTimeString("en-UK").substring(0,5);
-  }
+    return date.toLocaleTimeString("en-UK").substring(0, 5);
+  };
   useEffect(() => {
     fetchData();
   }, []);
@@ -82,11 +85,14 @@ const Chart = () => {
                 tick={{ fill: "white", strokeWidth: 0.5 }}
                 tickFormatter={formatDate}
                 scale="time"
-                domain={['dataMin', 'dataMax']}
+                domain={["dataMin", "dataMax"]}
               />
               <YAxis
                 type="number"
-                domain={[dataMin => Math.floor(dataMin-10), dataMax => Math.floor(dataMax+10)]}
+                domain={[
+                  (dataMin) => Math.floor(dataMin - 10),
+                  (dataMax) => Math.floor(dataMax + 10),
+                ]}
                 tick={{ fill: "white", strokeWidth: 0.5 }}
                 scale="linear"
                 tickCount={5}
@@ -104,11 +110,17 @@ const Chart = () => {
           </ResponsiveContainer>
 
           <div className="balance-info">
-            <h1>Initial - €{data[0].balance}</h1>
-            <h1 className="percentage" style={{ color: percentColour }}>
-              P/L - {percentDiff}%
-            </h1>
-            <h1>Current - €{data[data.length - 1].balance}</h1>
+            <div>
+              <h1>Initial - €{data[0].balance}</h1>
+            </div>
+            <div>
+              <h1 className="percentage" style={{ color: percentColour }}>
+                P/L - {percentDiff}%
+              </h1>
+            </div>
+            <div>
+              <h1>Current - €{data[data.length - 1].balance}</h1>
+            </div>
           </div>
         </>
       )}
