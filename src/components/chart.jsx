@@ -41,7 +41,6 @@ const Chart = () => {
         },
       }
     );
-    console.log("here")
     response = await response.json();
     const prices = response.map((x) => ({
       balance: x[0].toFixed(2),
