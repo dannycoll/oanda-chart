@@ -24,30 +24,31 @@ const CustomTooltip = ({ active, payload, label }) => {
       </div>
     );
   }
-
   return null;
 };
 
 const Chart = () => {
-  const [data = [], setData] = useState();
+  const [data, setData] = useState([]);
   const [percentDiff, setPercentDiff] = useState(0.0);
-  const fetchData = async () => {
+  const [loading, setLoading] = useState(true);
+  const fetchData = async (timeframe) => {
+    setLoading(true);
     let response = await fetch(
-      "https://zpwqlejamg.execute-api.eu-west-1.amazonaws.com/prod",
+      `https://zpwqlejamg.execute-api.eu-west-1.amazonaws.com/prod?tf=${timeframe}`,
       {
         mode: "cors",
         headers: {
-          "Content-Type": "application/json",
         },
       }
     );
+    console.log("here")
     response = await response.json();
     const prices = response.map((x) => ({
       balance: x[0].toFixed(2),
       time: new Date(x[1] * 1000),
       openTrades: x[2],
     }));
-    setData(prices);
+    await setData(prices);
     setPercentDiff(
       (
         ((prices[prices.length - 1].balance - prices[0].balance) /
@@ -55,6 +56,7 @@ const Chart = () => {
         100
       ).toFixed(2)
     );
+    setLoading(false);
   };
 
   const formatDate = (date) => {
@@ -62,71 +64,24 @@ const Chart = () => {
   };
 
   const filterData = async (timeFrame) => {
-    let filtered = new Array();
-    await fetchData();
-    switch (timeFrame) {
-      case "5 min":
-        break;
-      case "10 min":
-        data.forEach((x) => {
-          var last = filtered.length > 0 ? filtered[filtered.length - 1] : null;
-          if (last) {
-            if (x.time - last.time >= 600000) filtered.push(x);
-          } else filtered.push(x);
-        });
-        setData(filtered);
-        break;
-      case "30 min":
-        data.forEach((x) => {
-          var last = filtered.length > 0 ? filtered[filtered.length - 1] : null;
-          if (last) {
-            if (x.time - last.time >= 1800000) filtered.push(x);
-          } else filtered.push(x);
-        });
-        setData(filtered);
-        break;
-      case "1 hr":
-        data.forEach((x) => {
-          var last = filtered.length > 0 ? filtered[filtered.length - 1] : null;
-          if (last) {
-            if (x.time - last.time >= 3600000) filtered.push(x);
-          } else filtered.push(x);
-        });
-        setData(filtered);
-        break;
-      case "1 day":
-        console.log("here");
-        data.forEach((x) => {
-          var last = filtered.length > 0 ? filtered[filtered.length - 1] : null;
-          if (last) {
-            if (x.time - last.time >= 24 * 3600000) filtered.push(x);
-          } else filtered.push(x);
-        });
-        setData(filtered);
-        break;
-      case "1 week":
-        data.forEach((x) => {
-          var last = filtered.length > 0 ? filtered[filtered.length - 1] : null;
-          if (last) {
-            if (x.time - last.time >= 24 * 7 * 3600000) filtered.push(x);
-          } else filtered.push(x);
-        });
-        setData(filtered);
-        break;
-      default:
-        break;
-    }
+    //TODO: change api to take in timeframe param and do filtering in backend
+    setLoading(true);
+    await setData([]);
+    await fetchData(timeFrame);
+    setLoading(false);
   };
+
   useEffect(() => {
-    fetchData();
+    fetchData("5min_balances");
   }, []);
+
   const percentColour = percentDiff >= 0 ? "#82ca9d" : "#ff6666";
 
   return (
     <div className="chart">
-      {data.length > 0 && (
+      <TimeframeButtons onClick={filterData} />
+      {loading ? <h1>Loading</h1> : (
         <>
-          <TimeframeButtons onClick={filterData} />
           <ResponsiveContainer width="95%" height="60%" className="chart">
             <AreaChart
               data={data}
@@ -144,6 +99,7 @@ const Chart = () => {
                 tickFormatter={formatDate}
                 scale="time"
                 domain={["dataMin", "dataMax"]}
+                allowDataOverflow={false}
               />
               <YAxis
                 type="number"
