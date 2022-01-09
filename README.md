@@ -1,2 +1,2 @@
 ## Hosted On
-https://master.d1a6mcskeqt88v.amplifyapp.com/
+https://oanda-chart.vercel.app/ or https://oandachart.com
