@@ -63,7 +63,6 @@ const Chart = () => {
   };
 
   const filterData = async (timeFrame) => {
-    //TODO: change api to take in timeframe param and do filtering in backend
     setLoading(true);
     await setData([]);
     await fetchData(timeFrame);
