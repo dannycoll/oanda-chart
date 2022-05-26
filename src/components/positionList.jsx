@@ -3,7 +3,7 @@ import styles from './../styles/positionList.module.css';
 
 const PositionList = () => {
   const [positions, setPositions] = useState([]);
-  const [showMarginWarning, setShowMarginWarning] = useState(true);
+  const [showMarginWarning, setShowMarginWarning] = useState(false);
   const fetchData = async () => {
     let response = await (
       await fetch(`https://api-fxtrade.oanda.com/v3/accounts/${process.env.REACT_APP_ACCOUNT_ID}/positions`, {
@@ -35,7 +35,6 @@ const PositionList = () => {
     });
     setPositions([...response]);
     setShowMarginWarning(parseFloat(accountSummary.marginUsed) > 0.9 * parseFloat(accountSummary.marginCloseoutNAV));
-    console.log(response);
   };
   useEffect(() => {
     fetchData();
