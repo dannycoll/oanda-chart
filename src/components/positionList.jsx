@@ -23,14 +23,25 @@ const PositionList = () => {
         },
       })
     ).json();
+    let changes = await (
+      await fetch(
+        `https://api-fxtrade.oanda.com/v3/accounts/${process.env.REACT_APP_ACCOUNT_ID}/transactions?type=TRANSFER_FUNDS`,
+        {
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${process.env.REACT_APP_OANDA_BEARER}`,
+          },
+        }
+      )
+    ).json();
     accountSummary = accountSummary.account;
     response = response.positions.map(x => {
       return {
         instrument: x.instrument,
-        direction: x.long.units > x.short.units ? 'long' : x.short.units != 0 ? 'short' : '-',
+        direction: x.long.units > Math.abs(x.short.units) ? 'long' : parseInt(x.short.units) !== 0 ? 'short' : '-',
         pl: x.unrealizedPL,
-        avgPrice: x.long.units > x.short.units ? x.long.averagePrice : x.short.units != 0 ? x.short.averagePrice : '-',
-        units: x.long.units > x.short.units ? x.long.units : x.short.units,
+        units: x.long.units > Math.abs(x.short.units) ? x.long.units : Math.abs(x.short.units),
       };
     });
     setPositions([...response]);
@@ -56,7 +67,7 @@ const PositionList = () => {
         {positions
           .filter(x => x.direction != '-')
           .map(x => (
-            <tr>
+            <tr key={x.instrument}>
               <td>{x.instrument.replace('_', '/')}</td>
               <td style={{ color: getColor(x.pl) }}>{x.pl}</td>
               <td style={{ color: getColor(x.direction) }}>{x.direction}</td>
