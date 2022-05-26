@@ -34,7 +34,7 @@ const PositionList = () => {
       };
     });
     setPositions([...response]);
-    // setShowMarginWarning(parseFloat(accountSummary.marginUsed) > 0.9 * parseFloat(accountSummary.marginCloseoutNAV));
+    setShowMarginWarning(parseFloat(accountSummary.marginUsed) > 0.9 * parseFloat(accountSummary.marginCloseoutNAV));
     console.log(response);
   };
   useEffect(() => {
