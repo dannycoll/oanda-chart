@@ -59,7 +59,7 @@ const PositionList = () => {
             <tr>
               <td>{x.instrument.replace('_', '/')}</td>
               <td style={{ color: getColor(x.pl) }}>{x.pl}</td>
-              <td>{x.avgPrice}</td>
+              <td style={{ color: getColor(x.direction) }}>{x.direction}</td>
               <td>{x.units / 1000}</td>
             </tr>
           ))}
