@@ -51,7 +51,7 @@ const PositionList = () => {
         <tr>
           <th>Pair</th>
           <th>Profit</th>
-          <th>Average Price</th>
+          <th>Direction</th>
           <th>Trades</th>
         </tr>
         {positions
