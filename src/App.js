@@ -10,8 +10,8 @@ function App() {
     <div className="App">
       <header className="App-header">
         <div className={styles.contentContainer}>
-          {toShow == 'Chart' && <Chart />}
-          {toShow == 'Trades' && <PositionList />}
+          {toShow === 'Chart' && <Chart />}
+          {toShow === 'Trades' && <PositionList />}
         </div>
         <ContentTabs setToShow={setToShow} />
       </header>

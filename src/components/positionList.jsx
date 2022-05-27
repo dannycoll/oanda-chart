@@ -23,18 +23,6 @@ const PositionList = () => {
         },
       })
     ).json();
-    let changes = await (
-      await fetch(
-        `https://api-fxtrade.oanda.com/v3/accounts/${process.env.REACT_APP_ACCOUNT_ID}/transactions?type=TRANSFER_FUNDS`,
-        {
-          mode: 'cors',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${process.env.REACT_APP_OANDA_BEARER}`,
-          },
-        }
-      )
-    ).json();
     accountSummary = accountSummary.account;
     response = response.positions.map(x => {
       return {
@@ -51,29 +39,33 @@ const PositionList = () => {
     fetchData();
   }, []);
   const getColor = input => {
-    if (input >= 0 || input == 'long') return '#82ca9d';
+    if (input >= 0 || input === 'long') return '#82ca9d';
     return '#ff6666';
   };
   return (
     <div className={styles.container}>
       {showMarginWarning && <div className={styles.marginText}>High Margin!</div>}
       <table>
-        <tr>
-          <th>Pair</th>
-          <th>Profit</th>
-          <th>Direction</th>
-          <th>Trades</th>
-        </tr>
-        {positions
-          .filter(x => x.direction != '-')
-          .map(x => (
-            <tr key={x.instrument}>
-              <td>{x.instrument.replace('_', '/')}</td>
-              <td style={{ color: getColor(x.pl) }}>{x.pl}</td>
-              <td style={{ color: getColor(x.direction) }}>{x.direction}</td>
-              <td>{x.units / 1000}</td>
-            </tr>
-          ))}
+        <thead>
+          <tr>
+            <th>Pair</th>
+            <th>Profit</th>
+            <th>Direction</th>
+            <th>Trades</th>
+          </tr>
+        </thead>
+        <tbody>
+          {positions
+            .filter(x => x.direction !== '-')
+            .map(x => (
+              <tr key={x.instrument}>
+                <td>{x.instrument.replace('_', '/')}</td>
+                <td style={{ color: getColor(x.pl) }}>{x.pl}</td>
+                <td style={{ color: getColor(x.direction) }}>{x.direction}</td>
+                <td>{x.units / 1000}</td>
+              </tr>
+            ))}
+        </tbody>
       </table>
     </div>
   );
