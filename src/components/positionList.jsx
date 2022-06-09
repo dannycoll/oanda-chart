@@ -55,16 +55,25 @@ const PositionList = () => {
           </tr>
         </thead>
         <tbody>
-          {positions
-            .filter(x => x.direction !== '-')
-            .map(x => (
-              <tr key={x.instrument}>
-                <td>{x.instrument.replace('_', '/')}</td>
-                <td style={{ color: getColor(x.pl) }}>{x.pl}</td>
-                <td style={{ color: getColor(x.direction) }}>{x.direction}</td>
-                <td>{x.units / 1000}</td>
-              </tr>
-            ))}
+          {positions.filter(x => x.direction !== '-').length > 0 ? (
+            positions
+              .filter(x => x.direction !== '-')
+              .map(x => (
+                <tr key={x.instrument}>
+                  <td>{x.instrument.replace('_', '/')}</td>
+                  <td style={{ color: getColor(x.pl) }}>{x.pl}</td>
+                  <td style={{ color: getColor(x.direction) }}>{x.direction}</td>
+                  <td>{x.units / 1000}</td>
+                </tr>
+              ))
+          ) : (
+            <tr>
+              <td></td>
+              <td>No</td>
+              <td>open</td>
+              <td>positions</td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
